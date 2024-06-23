@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFacebook, faInstagram, faLinkedin, faGithub} from '@fortawesome/free-brands-svg-icons';
-import { year2009, year2010, year2011, year2012, year2016, year2017, year2018, year2019, year2020, year2021, year2022, year2023 } from '../../constants/members'
+import { year2009, year2010, year2011, year2012, year2016, year2017, year2018, year2019, year2020, year2021, year2022, year2023,year 2024 } from '../../constants/members'
 
 
 
