@@ -112,6 +112,9 @@ import mashaal from "../images/members/2025/mashaal.webp";
 import anmol from "../images/members/2025/anmol.webp";
 import moordhan from "../images/members/2025/moordhan.webp";
 
+import shivam from "../images/members/2027/shivam.jpeg";
+
+
 interface Member {
   name: string;
   image: StaticImageData;
@@ -1536,3 +1539,16 @@ export const year2025: Member[] = [
     facebook: "",
   },
 ];
+export const year2027: Member[] [
+  {
+   name: "Shivam Kuntal",
+    image: shivam,
+    desc: "Artificial Intelligence and Data Engineering",
+    github: "",
+    linkedin: "https://www.linkedin.com/in/shivam-kuntal-82050a290/",
+    twitter: "",
+    instagram: "",
+    facebook: "",
+},
+{
+  
