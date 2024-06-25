@@ -57,7 +57,7 @@ const Team = () => {
         { <h1 className="pt-12 text-center font-bold text-4xl px-12 lg:px-24">FINAL YEAR</h1> }
          { <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 pt-16 px-12 lg:px-24">
         {
-        year2024.map((item, index) => (
+        year2027.map((item, index) => (
           <div key={index} className="col-span-1">
             <h1 className="text-black py-2 font-nunito text-center">
               <div className="w-48 mx-auto member-hover">
