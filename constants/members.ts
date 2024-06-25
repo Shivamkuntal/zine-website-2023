@@ -1442,16 +1442,16 @@ export const year2024: Member[] = [
 ];
 
 export const year2025: Member[] = [
-  {
-    name: "Priyansh Kothari",
-    image: priyansh,
-    desc: "Computer Science Engineering",
-    github: "",
-    linkedin: "https://www.linkedin.com/in/priyansh-kothari-648a161a5/",
-    twitter: "",
-    instagram: "",
-    facebook: "",
-  },
+  //{
+  //  name: "Priyansh Kothari",
+  //  image: priyansh,
+  // desc: "Computer Science Engineering",
+  //  github: "",
+   // linkedin: "https://www.linkedin.com/in/priyansh-kothari-648a161a5/",
+    //twitter: "",
+    //instagram: "",
+    //facebook: "",
+  //},
   // {
   //   name: "Jaydeep Singh",
   //   image: jaydeep,
