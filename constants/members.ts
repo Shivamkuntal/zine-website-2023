@@ -1593,3 +1593,5 @@ export const year2027: Member[] [
     twitter: "",
     instagram: "",
     facebook: "",
+},
+];
