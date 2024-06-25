@@ -112,11 +112,11 @@ import mashaal from "../images/members/2025/mashaal.webp";
 import anmol from "../images/members/2025/anmol.webp";
 import moordhan from "../images/members/2025/moordhan.webp";
 
-import shivam from "../images/members/2027/shivam.jpeg";
-import abinavT from "../images/members/2027/abhinav T.jpeg;
-import hardik from "../images/members/2027/hardik.jpeg;
-import yug from "../images/members/2027/yug.jpeg;
-import omkesh from "../images/members/2027/omkesh.jpeg  
+import shivam from "../images/members/2027/shivam.webp";
+import abinavT from "../images/members/2027/abhinav T.webp;
+import hardik from "../images/members/2027/hardik.webp;
+import yug from "../images/members/2027/yug.webp;
+import omkesh from "../images/members/2027/omkesh.webp; 
 
 
 interface Member {
