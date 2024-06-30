@@ -31,6 +31,37 @@ const Intro = () => {
     const handleComment = (comment) => {
         setComments([...comments, comment]);
     };
+    const handleQuizAnswer = (question, answer) => {
+        setQuizAnswers({ ...quizAnswers, [question]: answer });
+    };
+
+    const handleQuizSubmit = () => {
+        // Calculate quiz score or display correct answers
+        setShowQuizResults(true);
+    };
+
+    const resetQuiz = () => {
+        setQuizAnswers({});
+        setShowQuizResults(false);
+    };
+
+    const quizQuestions = [
+        {
+            question: "According to Newton's first law of motion, an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force. This is also known as:",
+            options: ["Law of Inertia", "Law of Gravity", "Law of Action and Reaction", "Law of Acceleration"],
+            correctAnswer: "Law of Inertia",
+        },
+        {
+            question: "Newton's second law of motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its:",
+            options: ["Velocity", "Mass", "Density", "Volume"],
+            correctAnswer: "Mass",
+        },
+        {
+            question: "Newton's third law of motion states that for every action, there is an equal and opposite reaction. This law is crucial in understanding:",
+            options: ["Lift generation in wings", "Pressure distribution in fluids", "Drag forces on an aircraft", "Thrust produced by engines"],
+            correctAnswer: "Thrust produced by engines",
+        },
+    ];
 
     return (
         <div className="text-black bg-white w-screen">
@@ -248,7 +279,56 @@ const Intro = () => {
               </div>
           </div>
         </div>
+    )
+}
+{/* Quiz section */}
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Quiz</h2>
+                {!showQuizResults ? (
+                    <div>
+                      {quizQuestions.map((question, index) => (
+                        <div key={index} className="mb-4">
+                          <h3 className="text-lg font-bold">{question.question}</h3>
+                          <ul className="ml-4 mt-2">
+                            {question.options.map((option, idx) => (
+                              <li key={idx} className="cursor-pointer" onClick={() => handleQuizAnswer(question.question, option)}>
+                                <span className="mr-2">{option}</span>
+                                {quizAnswers[question.question] === option && <span>✔️</span>}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                      <div className="flex justify-center mt-4">
+                        <button onClick={handleQuizSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          Submit Quiz
+                        </button>
+                      </div>
+                    </div>
+                ) : (
+                    <div>
+                      <h3 className="text-lg font-bold">Quiz Results</h3>
+                      <ul className="ml-4 mt-2">
+                        {quizQuestions.map((question, index) => (
+                          <li key={index} className="mb-2">
+                            <strong>{question.question}</strong>
+                            <br />
+                            <span>Your Answer: {quizAnswers[question.question]}</span>
+                            <br />
+                            <span>Correct Answer: {question.correctAnswer}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="flex justify-center mt-4">
+                        <button onClick={resetQuiz} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          Retake Quiz
+                        </button>
+                      </div>
+                    </div>
+                )}
+              </div>
+          </div>
+        </div>
     );
 }
-
 export default Intro;
