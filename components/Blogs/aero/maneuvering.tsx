@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import CenterOfGravity1 from "../../../images/blog/aero/maneuvering/image1.png";
 import CenterOfGravity2 from "../../../images/blog/aero/maneuvering/image2.png";
@@ -11,9 +11,59 @@ import AileronPart from "../../../images/blog/aero/maneuvering/image8.png";
 import RudderPart from "../../../images/blog/aero/maneuvering/image9.png";
 import GeneralOverview from "../../../images/blog/aero/maneuvering/image10.jpg";
 
-
-
 const Maneuvering = () => {
+    const [likes, setLikes] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [commentText, setCommentText] = useState("");
+    const [quizAnswers, setQuizAnswers] = useState({});
+    const [quizSubmitted, setQuizSubmitted] = useState(false);
+
+    const handleLike = () => {
+        setLikes(likes + 1);
+    };
+
+    const handleCommentChange = (e) => {
+        setCommentText(e.target.value);
+    };
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        if (commentText.trim()) {
+            setComments([...comments, commentText]);
+            setCommentText("");
+        }
+    };
+
+    const handleQuizChange = (e) => {
+        const { name, value } = e.target;
+        setQuizAnswers({
+            ...quizAnswers,
+            [name]: value,
+        });
+    };
+
+    const handleQuizSubmit = () => {
+        setQuizSubmitted(true);
+    };
+
+    const quizQuestions = [
+        {
+            question: "What is the main purpose of the ailerons?",
+            options: ["Control pitch", "Control roll", "Control yaw"],
+            correctAnswer: "Control roll",
+        },
+        {
+            question: "Where is the rudder located?",
+            options: ["On the wings", "On the tail", "On the fuselage"],
+            correctAnswer: "On the tail",
+        },
+        {
+            question: "What is the function of the elevators?",
+            options: ["Control yaw", "Control roll", "Control pitch"],
+            correctAnswer: "Control pitch",
+        },
+    ];
+ 
     return(
         <div className="text-black bg-white w-screen">
           <div className="bg-ee-bg bg-no-repeat bg-center bg-cover bg-fixed py-80 backdrop-blur-lg">
@@ -96,7 +146,86 @@ const Maneuvering = () => {
             <p>Watch <a className="text-blue-600 underline" href="https://www.youtube.com/watch?v=XDIg7yVO6zw">this</a> video for demonstration.</p>
           </div>
         </div>
-    )
-}
+{/* Like button and count */}
+                <div className="flex items-center justify-center mt-8">
+                    <button onClick={handleLike} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Like {likes}
+                    </button>
+                </div>
+
+                {/* Comments section */}
+                <div className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4">Comments</h2>
+                    <ul>
+                        {comments.map((comment, index) => (
+                            <li key={index} className="mb-2">{comment}</li>
+                        ))}
+                    </ul>
+                    <form onSubmit={handleCommentSubmit}>
+                        <input
+                            type="text"
+                            value={commentText}
+                            onChange={handleCommentChange}
+                            placeholder="Add a comment..."
+                            className="border border-gray-400 rounded-md p-2 w-full"
+                        />
+                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">
+                            Post Comment
+                        </button>
+                    </form>
+                </div>
+
+                {/* Quiz section */}
+                <div className="mt-8">
+                    <h2 className="text-2xl font-bold mb-4">Quiz</h2>
+                    {!quizSubmitted ? (
+                        <div>
+                            {quizQuestions.map((quiz, index) => (
+                                <div key={index} className="mb-4">
+                                    <h3 className="text-lg font-bold">{quiz.question}</h3>
+                                    {quiz.options.map((option, i) => (
+                                        <label key={i} className="block">
+                                            <input
+                                                type="radio"
+                                                name={`question${index}`}
+                                                value={option}
+                                                onChange={handleQuizChange}
+                                                disabled={quizSubmitted}
+                                            />
+                                            {option}
+                                        </label>
+                                    ))}
+                                </div>
+                            ))}
+                            <button
+                                className="bg-purple-500 text-white px-4 py-2 rounded"
+                                onClick={handleQuizSubmit}
+                                disabled={quizSubmitted}
+                            >
+                                Submit Quiz
+                            </button>
+                        </div>
+                    ) : (
+                        <div>
+                            <h3 className="text-lg font-bold">Quiz Results</h3>
+                            {quizQuestions.map((quiz, index) => (
+                                <p key={index} className="my-2">
+                                    {quiz.question} -{" "}
+                                    {quizAnswers[`question${index}`] === quiz.correctAnswer ? (
+                                        <span className="text-green-500">Correct</span>
+                                    ) : (
+                                        <span className="text-red-500">
+                                            Incorrect (Correct answer: {quiz.correctAnswer})
+                                        </span>
+                                    )}
+                                </p>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default Maneuvering;
