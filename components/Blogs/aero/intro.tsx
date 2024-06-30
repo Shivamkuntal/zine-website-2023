@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import Doraemon from "../../../images/blog/aero/intro/image1.jpg";
+import Aeroplane from "../../../images/blog/aero/intro/image2.jpg";
 import Doraemon from "../../../images/blog/aero/intro/image1.jpg";
 import Aeroplane from "../../../images/blog/aero/intro/image2.jpg";
 import BernoullisLaw from "../../../images/blog/aero/intro/image3.png";
@@ -18,9 +20,19 @@ import TranssonicAircraft from "../../../images/blog/aero/intro/image15.jpg";
 import SupersonicAircraft from "../../../images/blog/aero/intro/image16.png";
 import HypersonicAircraft from "../../../images/blog/aero/intro/image17.png";
 
-
 const Intro = () => {
-    return(
+    const [likeCount, setLikeCount] = useState(0);
+    const [comments, setComments] = useState([]);
+
+    const handleLike = () => {
+        setLikeCount(likeCount + 1);
+    };
+
+    const handleComment = (comment) => {
+        setComments([...comments, comment]);
+    };
+
+    return (
         <div className="text-black bg-white w-screen">
           <div className="bg-ee-bg bg-no-repeat bg-center bg-cover bg-fixed py-80 backdrop-blur-lg">
               <div className="pl-32 backdrop-blur-xl">
@@ -29,7 +41,7 @@ const Intro = () => {
           </div>
 
           <div className="mx-16 md:mx-32 lg:mx-48 xl:mx-72 mt-8 text-lg">
-              <p>If you have ever wondered how someone could fly, what would you think of? Wings? Propellers? [Because that’s how the Wright brothers did it, duh]. But how does it work? We are here to answer that question for you. That’s what we do in aeromodelling, we design, construct and fly our airplanes. </p>
+           <p>If you have ever wondered how someone could fly, what would you think of? Wings? Propellers? [Because that’s how the Wright brothers did it, duh]. But how does it work? We are here to answer that question for you. That’s what we do in aeromodelling, we design, construct and fly our airplanes. </p>
               <p>So it can be described as the art of designing, building and flying miniaturized aircrafts (Be it powered or unpowered). So, kudos to you, you have been an aeromodeller since your childhood.</p>
               
               <p className="mt-8">But the real question is why do we need to study this field, don’t we already have the best of aircrafts?</p>
@@ -212,6 +224,31 @@ const Intro = () => {
           </div>
         </div>
     )
+}
+{/* Like button and count */}
+              <div className="flex items-center justify-center mt-8">
+                <button onClick={handleLike} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Like {likeCount}
+                </button>
+              </div>
+
+              {/* Comments section */}
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Comments</h2>
+                <ul>
+                  {comments.map((comment, index) => (
+                    <li key={index} className="mb-2">{comment}</li>
+                  ))}
+                </ul>
+                {/* Add comment form */}
+                <form onSubmit={(e) => { e.preventDefault(); handleComment(e.target.comment.value); }}>
+                  <input type="text" name="comment" placeholder="Add a comment..." className="border border-gray-400 rounded-md p-2 w-full" />
+                  <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Post Comment</button>
+                </form>
+              </div>
+          </div>
+        </div>
+    );
 }
 
 export default Intro;
