@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import image1 from "../../../images/blog/webdev/image1.png";
 
 const Web = () => {
+   const [likeCount, setLikeCount] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
+  const [quizAnswer, setQuizAnswer] = useState("");
+  const [quizResult, setQuizResult] = useState("");
+
+  const handleLike = () => {
+    setLikeCount(likeCount + 1);
+  };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  const handleCommentSubmit = () => {
+    setComments([...comments, comment]);
+    setComment("");
+  };
+
+  const handleQuizSubmit = () => {
+    if (quizAnswer.toLowerCase() === "hypertext markup language") {
+      setQuizResult("Correct!");
+    } else {
+      setQuizResult("Incorrect. Try again.");
+    }
+  };
   return (
     <div className="text-black bg-white w-screen">
           <div className="bg-ee-bg bg-no-repeat bg-center bg-cover bg-fixed py-80 backdrop-blur-lg">
@@ -499,6 +525,55 @@ const Web = () => {
             the portfolio and deploy it. Send us the link of the deployed site
             to the same on zine.nitj@gmail.com
           </p>
+        </div>
+      </div>
+    </div>
+     <h2 className="mt-8">Quiz: What is the full form of HTML?</h2>
+        <input
+          type="text"
+          value={quizAnswer}
+          onChange={(e) => setQuizAnswer(e.target.value)}
+          className="border border-gray-400 p-2 rounded"
+        />
+        <button
+          onClick={handleQuizSubmit}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+        >
+          Submit
+        </button>
+        {quizResult && <p className="mt-2">{quizResult}</p>}
+
+        <div className="my-4">
+          <button
+            onClick={handleLike}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
+            Like
+          </button>
+          <span className="ml-2">{likeCount} Likes</span>
+        </div>
+
+        <div className="mt-8">
+          <h2>Comments</h2>
+          <textarea
+            value={comment}
+            onChange={handleCommentChange}
+            placeholder="Write your comment..."
+            className="border border-gray-400 p-2 rounded w-full"
+          />
+          <button
+            onClick={handleCommentSubmit}
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+          >
+            Post Comment
+          </button>
+          <ul className="mt-4">
+            {comments.map((c, index) => (
+              <li key={index} className="border-b border-gray-300 py-2">
+                {c}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
