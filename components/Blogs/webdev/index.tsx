@@ -1,4 +1,3 @@
-import WebDev from "./webdev";
-import Web from "./web";
 
+import Web from "./web";
 export { WebDev, Web }
