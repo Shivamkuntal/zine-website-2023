@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState } from "react";
 import Image from "next/image";
 import image1 from "../../../images/blog/ic-mcu/more/image1.gif";
 import image2 from "../../../images/blog/ic-mcu/more/image2.gif";
@@ -50,6 +50,68 @@ import image47 from "../../../images/blog/ic-mcu/more/image47.png";
 import image270 from "../../../images/blog/ic-mcu/more/image270.png";
 
 const More = () => {
+  const quizData = [
+  {
+    question: "What does IC stand for?",
+    options: ["Integrated Circuit", "Interconnected Circuit", "Integrated Chip"],
+    correctAnswer: "Integrated Circuit"
+  },
+  {
+    question: "Which microcontroller is used in Arduino Uno?",
+    options: ["ATmega328P", "ESP32", "PIC16F877A"],
+    correctAnswer: "ATmega328P"
+  },
+  {
+    question: "What is the main feature of ESP32?",
+    options: ["Bluetooth and Wi-Fi connectivity", "Analog to Digital Conversion", "PWM Output"],
+    correctAnswer: "Bluetooth and Wi-Fi connectivity"
+  },
+  {
+    question: "What is a commonly used programming language for Arduino?",
+    options: ["Python", "C++", "JavaScript"],
+    correctAnswer: "C++"
+  },
+  {
+    question: "What does PWM stand for in microcontrollers?",
+    options: ["Pulse Width Modulation", "Programmed Wave Management", "Powerful Wave Modulation"],
+    correctAnswer: "Pulse Width Modulation"
+  }
+];
+
+const Quiz = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+
+  const handleAnswerButtonClick = (selectedOption) => {
+    if (selectedOption === quizData[currentQuestion].correctAnswer) {
+      setScore(score + 1);
+    }
+
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < quizData.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setShowScore(true);
+    }
+  };
+
+  const handleLikeButtonClick = () => {
+    setLikes(likes + 1);
+  };
+
+  const handleCommentChange = (event) => {
+    setNewComment(event.target.value);
+  };
+
+  const handleCommentSubmit = (event) => {
+    event.preventDefault();
+    setComments([...comments, newComment]);
+    setNewComment('');
+  };
   return (
     <div className="text-black bg-white w-screen">
       <div className="bg-ee-bg bg-no-repeat bg-center bg-cover bg-fixed py-80 backdrop-blur-lg">
@@ -960,7 +1022,38 @@ const More = () => {
       </div>
       </div>
     </div>
+  <div>
+      {showScore ? (
+        <div>
+          <h2>Your Score: {score} out of {quizData.length}</h2>
+          <ul>
+            {comments.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+          </ul>
+          <form onSubmit={handleCommentSubmit}>
+            <textarea value={newComment} onChange={handleCommentChange} placeholder="Add your comment" />
+            <button type="submit">Submit Comment</button>
+          </form>
+          <div>
+            <button onClick={handleLikeButtonClick}>Like</button>
+            <span>{likes} Likes</span>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <h2>{quizData[currentQuestion].question}</h2>
+          <div>
+            {quizData[currentQuestion].options.map((option, index) => (
+              <button key={index} onClick={() => handleAnswerButtonClick(option)}>{option}</button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
+
+export default Quiz;
 
 export default More;
