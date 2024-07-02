@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState } from "react";
 import Image from "next/image";
 import image1 from "../../../images/blog/ic-mcu/microcontroller/image1.png";
 import image2 from "../../../images/blog/ic-mcu/microcontroller/image2.gif";
@@ -24,6 +24,68 @@ import image21 from "../../../images/blog/ic-mcu/microcontroller/image21.jpg";
 import image22 from "../../../images/blog/ic-mcu/microcontroller/image22.png";
 
 const Microcontroller = () => {
+  const questions = [
+    {
+      question: "What does IC stand for?",
+      answers: ["Integrated Circuit", "Internal Circuit", "Independent Circuit", "Integrated Control"],
+      correct: 0
+    },
+    {
+      question: "Which of the following is a microcontroller?",
+      answers: ["Arduino", "Raspberry Pi", "Intel Core i7", "AMD Ryzen"],
+      correct: 0
+    },
+    {
+      question: "What is the primary function of a microcontroller?",
+      answers: ["Processing input", "Managing memory", "Controlling peripherals", "All of the above"],
+      correct: 3
+    },
+    {
+      question: "Which language is commonly used to program microcontrollers?",
+      answers: ["Python", "Java", "C/C++", "HTML"],
+      correct: 2
+    },
+    {
+      question: "What is the function of GPIO pins on a microcontroller?",
+      answers: ["Powering the microcontroller", "Resetting the microcontroller", "Interfacing with other hardware", "Storing data"],
+      correct: 2
+    }
+  ];
+
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+
+  const handleAnswerOptionClick = (index) => {
+    if (index === questions[currentQuestion].correct) {
+      setScore(score + 1);
+    }
+
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setShowScore(true);
+    }
+  };
+
+  // Like button state and logic
+  const [likeCount, setLikeCount] = useState(0);
+
+  // Comment section state and logic
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+
+  const handleCommentChange = (event) => {
+    setNewComment(event.target.value);
+  };
+
+  const handleCommentSubmit = (event) => {
+    event.preventDefault();
+    setComments([...comments, newComment]);
+    setNewComment('');
+  };
+
   return (
     <div className="text-black bg-white w-screen">
     <div className="bg-ee-bg bg-no-repeat bg-center bg-cover bg-fixed py-80 backdrop-blur-lg">
@@ -907,6 +969,46 @@ const Microcontroller = () => {
           Till then, try to think about more sensors that provide the data but
           not in the form of electric signals.
         </p>
+      </div>
+    </div>
+  {/* Quiz Component */}
+      <div>
+        {showScore ? (
+          <div>
+            <h2>Your score: {score} out of {questions.length}</h2>
+          </div>
+        ) : (
+          <div>
+            <h2>{questions[currentQuestion].question}</h2>
+            <div>
+              {questions[currentQuestion].answers.map((answer, index) => (
+                <button key={index} onClick={() => handleAnswerOptionClick(index)}>
+                  {answer}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Like Button Component */}
+      <div>
+        <button onClick={() => setLikeCount(likeCount + 1)}>
+          Like {likeCount}
+        </button>
+      </div>
+
+      {/* Comment Section Component */}
+      <div>
+        <form onSubmit={handleCommentSubmit}>
+          <textarea value={newComment} onChange={handleCommentChange} />
+          <button type="submit">Add Comment</button>
+        </form>
+        <div>
+          {comments.map((comment, index) => (
+            <div key={index}>{comment}</div>
+          ))}
+        </div>
       </div>
     </div>
   );
