@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import clock from "../../../images/blog/ic-mcu/intro/image1.gif";
 import Mobile from "../../../images/blog/ic-mcu/intro/image2.gif";
@@ -13,9 +13,69 @@ import Superhero from "../../../images/blog/ic-mcu/intro/image10.gif";
 import Circuit1 from "../../../images/blog/ic-mcu/intro/image11.png";
 import ic from "../../../images/blog/ic-mcu/intro/image12.jpg";
 
-
-
 const Intro = () => {
+    const quizData = [
+        {
+            question: "What does IC stand for?",
+            options: ["Integrated Circuit", "Interconnected Circuit", "Integrated Chip"],
+            correctAnswer: "Integrated Circuit"
+        },
+        {
+            question: "Which microcontroller is used in Arduino Uno?",
+            options: ["ATmega328P", "ESP32", "PIC16F877A"],
+            correctAnswer: "ATmega328P"
+        },
+        {
+            question: "What is the main feature of ESP32?",
+            options: ["Bluetooth and Wi-Fi connectivity", "Analog to Digital Conversion", "PWM Output"],
+            correctAnswer: "Bluetooth and Wi-Fi connectivity"
+        },
+        {
+            question: "What is a commonly used programming language for Arduino?",
+            options: ["Python", "C++", "JavaScript"],
+            correctAnswer: "C++"
+        },
+        {
+            question: "What does PWM stand for in microcontrollers?",
+            options: ["Pulse Width Modulation", "Programmed Wave Management", "Powerful Wave Modulation"],
+            correctAnswer: "Pulse Width Modulation"
+        }
+    ];
+
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [score, setScore] = useState(0);
+    const [showScore, setShowScore] = useState(false);
+    const [likes, setLikes] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
+
+    const handleAnswerButtonClick = (selectedOption) => {
+        if (selectedOption === quizData[currentQuestion].correctAnswer) {
+            setScore(score + 1);
+        }
+
+        const nextQuestion = currentQuestion + 1;
+        if (nextQuestion < quizData.length) {
+            setCurrentQuestion(nextQuestion);
+        } else {
+            setShowScore(true);
+        }
+    };
+
+    const handleLikeButtonClick = () => {
+        setLikes(likes + 1);
+    };
+
+    const handleCommentChange = (event) => {
+        setNewComment(event.target.value);
+    };
+
+    const handleCommentSubmit = (event) => {
+        event.preventDefault();
+        setComments([...comments, newComment]);
+        setNewComment('');
+    };
+
     return (
         <div className="text-black bg-white w-screen">
             <div className="bg-ee-bg bg-no-repeat bg-center bg-cover bg-fixed py-80 backdrop-blur-lg">
@@ -151,6 +211,60 @@ const Intro = () => {
                 <h1>Importance of ICs in Robotics</h1>
                 <p>We now know what ICs are but why are ICs important in robotics? Because ICs interact with electric current to achieve different tasks despite their small size that is all we need to handle electronic data in robotics and other electronic devices. Some ICs are used for basic decision-making in robots and some are used in circuits for voltage regulation, amplification, etc. Some of them are used for calculating time (which we’ll study in detail in 555 timer IC later) while some are used for handling heavy processing tasks for robots.</p>
                 <p>ICs not only revolutionized the field of robotics but also innovated electronics to great extent.</p>
+
+                {/* Quiz Section */}
+                <div className="mt-12">
+                    {showScore ? (
+                        <div className="text-center">
+                            <h2 className="text-xl font-bold mb-4">Quiz Results</h2>
+                            <p className="mb-2">You scored {score} out of {quizData.length}.</p>
+                            <p>Correct answers:</p>
+                            <ul className="list-disc list-inside">
+                                {quizData.map((question, index) => (
+                                    <li key={index} className="mb-2">{question.correctAnswer}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="text-center">
+                                <h2 className="text-xl font-bold mb-4">Quiz</h2>
+                                <p className="mb-4">{quizData[currentQuestion].question}</p>
+                                <div className="grid grid-cols-1 gap-4">
+                                    {quizData[currentQuestion].options.map((option, index) => (
+                                        <button key={index} onClick={() => handleAnswerButtonClick(option)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{option}</button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="mt-8">
+                                <p className="text-center">Question {currentQuestion + 1} of {quizData.length}</p>
+                            </div>
+                        </>
+                    )}
+                </div>
+
+                {/* Like Button */}
+                <div className="mt-8 text-center">
+                    <button onClick={handleLikeButtonClick} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Like {likes}
+                    </button>
+                </div>
+
+                {/* Comment Section */}
+                <div className="mt-8">
+                    <h2 className="text-xl font-bold mb-4">Comments</h2>
+                    <form onSubmit={handleCommentSubmit} className="mb-4">
+                        <textarea value={newComment} onChange={handleCommentChange} className="border border-gray-300 rounded w-full py-2 px-4" placeholder="Write a comment..." rows="4"></textarea>
+                        <button type="submit" className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Add Comment
+                        </button>
+                    </form>
+                    <ul>
+                        {comments.map((comment, index) => (
+                            <li key={index} className="border border-gray-300 rounded p-2 mb-2">{comment}</li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     )
